@@ -40,3 +40,4 @@ exit;
 
 
 #using bioseq to open files (Jeff)
+#lets get this done
