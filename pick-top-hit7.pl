@@ -38,5 +38,6 @@ while ( <BLAST>) {
 print Dumper(\%uniq);
 exit;
 
-
+my $pepIO= Bio::SeqIO->new(-file=""
+                           -
 
