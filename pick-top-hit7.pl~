@@ -39,4 +39,4 @@ print Dumper(\%uniq);
 exit;
 
 
-#using bioseq to open files (Jeff)
+
