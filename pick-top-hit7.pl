@@ -33,9 +33,9 @@ while ( <BLAST>) {
 close BLAST;
 print Dumper(\%uniq);
 #################opening gene cal file and storing sequence id and length as key value pairs
-#we will later compare this to drosophila sequence
+#we will later divide the sequence length by the drosophila sequence to get the percent that matched.
 
-open GENECALL, "<" . $gene_call  or die "Can't open file: $!";
+open GENECALL, "<" . $gene_call;#  or die "Can't open file: $!";
 
 
 

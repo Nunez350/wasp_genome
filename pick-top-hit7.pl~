@@ -32,20 +32,19 @@ while ( <BLAST>) {
 }
 close BLAST;
 print Dumper(\%uniq);
-
-#open (my $top_blast, "<", $blast_top) or die "Cannot Open: $blast_top\n";
-
-#while(my $line= <$top_blast>){
+#################opening gene cal file and storing sequence id and length as key value pairs
+#we will later compare this to drosophila sequence
 
 open GENECALL, "<" . $gene_call  or die "Can't open file: $!";
-###store sequence id and length as key value pairs
 
 
 
 
-#open dmel file
+
+
 exit;
 
 
 #using bioseq to open files (Jeff)
 #lets get this done
+#open (my $top_blast, "<", $blast_top) or die "Cannot Open: $blast_top\n";
