@@ -38,7 +38,12 @@ print Dumper(\%uniq);
 #while(my $line= <$top_blast>){
 
 open GENECALL, "<" . $gene_call  or die "Can't open file: $!";
+###store sequence id and length as key value pairs
 
+
+
+
+#open dmel file
 exit;
 
 
