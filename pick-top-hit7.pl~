@@ -1,3 +1,4 @@
+jeff test some more 
 testing2
 #!/usr/bin/env perl
 use strict;
@@ -39,4 +40,5 @@ print Dumper(\%uniq);
 exit;
 
 
-
+#using bioseq to open files (Jeff)
+#lets get this done
