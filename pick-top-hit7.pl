@@ -9,7 +9,7 @@ use Bio::SeqIO;
 #my ($gene_call, $subject_file, $blast_file) =  @ARGV;
 
 
-my ($blast_file, $gene_call) =  @ARGV;
+my ($blast_file, $gene_call, $anotherSeqFile) =  @ARGV;   #Jeff: I added other sequence file, feel free to change the name
 my %hits2;
 my %hits;
 my $arrayref;    
@@ -46,18 +46,22 @@ exit;
 
 
 #using bioseq to open files (Jeff)
-sub GCopen{  # returns hash{gene x} : length 
-    my $gene_call = shift or die "input gene_call";
-    my $fm = shift // "fasta";  
-    my %GClen;
+sub GCopen{ # GCopen(file, optional format--default fasta).  returns( hash{gene x} : length)   
+    
+    #veriables
+    my $gene_call = shift or die "input gene_call"; my $fm = shift // "fasta";  my %GClen;
     my $pepIO =Bio::SeqIO->new(-file=> "$gene_call", -format=> "$fm");
+    
+    #store into hash
     while (my $seq = $pepIO->next_seq){
             $GClen{$seq->display_id} = $seq->length;
     } 
     return %GClen;    
 } # end sub
-my %GClen = GCopen($gene_call); # GCopen(file, optional format--default fasta)
 
+#calling
+my %GClen = GCopen($gene_call); 
+my %otherLen= GCopen($anotherSeqFile);
 
 
 #lets get this done
