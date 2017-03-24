@@ -9,7 +9,7 @@ use Bio::SeqIO;
 #my ($gene_call, $subject_file, $blast_file) =  @ARGV;
 
 
-my ($blast_file, $gene_call) =  @ARGV;
+my ($blast_file, $gene_call, $anotherSeqFile) =  @ARGV;   #Jeff: I added other sequence file, feel free to change the name
 my %hits2;
 my %hits;
 my $arrayref;    
@@ -33,9 +33,9 @@ while ( <BLAST>) {
 close BLAST;
 print Dumper(\%uniq);
 #################opening gene cal file and storing sequence id and length as key value pairs
-#we will later compare this to drosophila sequence
+#we will later divide the sequence length by the drosophila sequence to get the percent that matched.
 
-open GENECALL, "<" . $gene_call  or die "Can't open file: $!";
+open GENECALL, "<" . $gene_call;#  or die "Can't open file: $!";
 
 
 
@@ -46,5 +46,23 @@ exit;
 
 
 #using bioseq to open files (Jeff)
-#lets get this done
+sub GCopen{ # GCopen(file, optional format--default fasta).  returns( hash{gene x} : length)   
+    
+    #veriables
+    my $gene_call = shift or die "input gene_call"; my $fm = shift // "fasta";  my %GClen;
+    my $pepIO =Bio::SeqIO->new(-file=> "$gene_call", -format=> "$fm");
+    
+    #store into hash
+    while (my $seq = $pepIO->next_seq){
+            $GClen{$seq->display_id} = $seq->length;
+    } 
+    return %GClen;    
+} # end sub
+
+#calling
+my %GClen = GCopen($gene_call); 
+my %otherLen= GCopen($anotherSeqFile);
+
+
+
 #open (my $top_blast, "<", $blast_top) or die "Cannot Open: $blast_top\n";
