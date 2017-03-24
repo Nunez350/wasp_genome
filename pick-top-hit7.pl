@@ -46,5 +46,10 @@ exit;
 
 
 #using bioseq to open files (Jeff)
+my %GC_len;
+my $pepIO =Bio::SeqIO->new(-file=> "$gene_call", -format=> "fasta");
+while (my $seq = $pepIO->next_seq){
+	$GC_len{$seq->display_id} = $seq->length;
+}
 #lets get this done
 #open (my $top_blast, "<", $blast_top) or die "Cannot Open: $blast_top\n";
