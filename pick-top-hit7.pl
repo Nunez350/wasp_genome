@@ -46,10 +46,19 @@ exit;
 
 
 #using bioseq to open files (Jeff)
-my %GC_len;
-my $pepIO =Bio::SeqIO->new(-file=> "$gene_call", -format=> "fasta");
-while (my $seq = $pepIO->next_seq){
-	$GC_len{$seq->display_id} = $seq->length;
-}
+sub GCopen{  # returns hash{gene x} : length 
+    my $gene_call = shift or die "input gene_call";
+    my $fm = shift // "fasta";  
+    my %GClen;
+    my $pepIO =Bio::SeqIO->new(-file=> "$gene_call", -format=> "$fm");
+    while (my $seq = $pepIO->next_seq){
+            $GClen{$seq->display_id} = $seq->length;
+    } 
+    return %GClen;    
+} # end sub
+my %GClen = GCopen($gene_call); # GCopen(file, optional format--default fasta)
+
+
+
 #lets get this done
 #open (my $top_blast, "<", $blast_top) or die "Cannot Open: $blast_top\n";
