@@ -5,40 +5,47 @@ use warnings;
 use List::Util qw(max);
 use Bio::SeqIO;
 use Bio::Seq;
-
 use Bio::AlignIO;
 #use List::UtilsBy qw(max_by);
 #die "Usage: $0 <Gene call file> <subject file> <BLAST file>\n" unless @ARGV == 1;
 
+#my ($blast_file, $gene_call, $anotherSeqFile) = shiftx @ARGV;   #Jeff: I added other sequence file, feel free to change the name
 
-my ($blast_file, $gene_call, $anotherSeqFile) =  @ARGV;   #Jeff: I added other sequence file, feel free to change the name
+my $seqio  = Bio::SeqIO->new( '-format' => 'fasta' , -file => 'gene-call_test_file.pep');
+my $seqobj = $seqio->next_seq();
 
-my %hits2;
-my %hits;
-my $arrayref;    
-my $count;
-my $count2;
-my %uniq;
-
-my @data;
-open BLAST, "<" . $blast_file  or die "Can't open file: $!";
-
-while ( <BLAST>) {
-    chomp;
-
-    @data = split;
-    $hits{$data[0]}->{$data[1]} = {
-        'pident' => $data[2],
-        'alignlength' => $data[3],
-        'evalue' => $data[10]
-    };
+while (<$seqio>){
+print $seqobj;
 }
-close BLAST;
+=begin
+my $gene_call = shift @ARGV;   #Jeff: I added other sequence file, feel free to change the name
+my $fasta = Bio::Seq->new(-file => $gene_call, -format =>'fasta' );
+my $in = $fasta->next_seq();
 
-my $fasta = Bio::Seq->new( -file => $gene_call, -format =>'fasta' );
+
+foreach  my $len ($in->length()){
+    print $len;
+}
+exit;
+
+
+
+
+
+
+
+
+
+
+while (<$fasta>) { 
+    my $len = $fasta->id();
+    print $len;
+
+
+}
+
 #my $in = Bio::SeqIO->new(-file=>$gene_call, -format=>'fasta');
-my $in = Bio::AlignIO->new(-file=>$gene_call, -format=>'fasta');
-
+#my $in = Bio::AlignIO->new(-file=>$gene_call, -format=>'fasta');
 
 my $aln= $in->next_aln();
 while (<$in>) {
@@ -113,3 +120,4 @@ my %otherLen= GCopen($anotherSeqFile);
 
 
 #open (my $top_blast, "<", $blast_top) or die "Cannot Open: $blast_top\n";
+=cut
