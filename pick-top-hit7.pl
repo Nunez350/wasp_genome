@@ -66,7 +66,7 @@ foreach my $geneN (keys %hits){
 	if ($geneN =~ /$geneP$/){
 	    foreach my $id (keys $hits{$geneN}){
 
-       say join "\t", "blast-match: $geneN","align-len:  $hits{$geneN}{$id}{'alignlength'}", "geneCall:  $geneP", "seq-len: $GCLen->{$geneP}", "perc-overlap: $hits{$geneN}{$id}{'alignlength'}/$GCLen->{$geneP}";
+       say join "\t", "blast-match: $geneN","align-len: $hits{$geneN}{$id}{'alignlength'}", "geneCall: $geneP", "seq-len: $GCLen->{$geneP}", "perc-overlap:", $hits{$geneN}{$id}{'alignlength'}/$GCLen->{$geneP};
 	   my $match = $geneN;
 	    }
 	}
