@@ -25,29 +25,47 @@ while ( <BLAST>) {
     };
 }
 close BLAST;
-#my $fasta = Bio::Seq->new( -file => $gene_call, -format =>'fasta' ) || die;
+#print Dumper(\%hits);
+#GCopen($gene_call);
+# my %GClen = GCopen($gene_call); 
+# foreach my $ph (keys %hits){
+    # foreach my $phv ( keys %{ $hits{$ph} } ){
 
-GCopen($gene_call);
-exit;
+  # print join "\t", $ph, $phv, %{$hits{$ph}{$phv}};
+  # print "\n";
+# #    print $phv,"\n";
+    # }
+# }
+#       foreach my $seq (@data) {
+# exit;
+
 #using bioseq to open files (Jeff)
-
 sub GCopen{ # GCopen(file, optional format--default fasta).  returns( hash{gene x} : length)   
-    
-    #veriables
+    #variables
     my $gene_call = shift or die "input gene_call"; my $fm = shift // "fasta";  my %GClen;
     my $pepIO =Bio::SeqIO->new(-file=> "$gene_call", -format=> "$fm");
     
     #store into hash
     while (my $seq = $pepIO->next_seq){
 	$GClen{$seq->display_id} = $seq->length;
-	print $seq->length,"\n";
+#	print $seq->length,"\n";
    } 
-#    return %GClen;    
+    return %GClen;    
 } # end sub
 
 #calling
-my %GClen = GCopen($gene_call); 
-my %otherLen= GCopen($anotherSeqFile);
+
+my %GCLen= GCopen($gene_call);
+
+my %fraction;      #added by Jeff.  calculating the   (align length / gene call length)
+foreach my $geneN (keys %hits){
+    foreach my $id (keys $hits{$geneN}){
+	    $fraction{$geneN}{$id}=$hits{$geneN}{$id}{'alignlength'}/$GCLen{$geneN};
+	    print $fraction{$geneN}{$id}," = $hits{$geneN}{$id}{'alignlength'} / $GCLen{$geneN} = $id alignlength / $geneN length, \t pident $hits{$geneN}{$id}{'pident'} \n\n";
+	    # print "$id, $geneN,\t\t", $hits{$geneN}{$id}{'alignlength'}/$GCLen{$geneN},"\n\n";
+    } 
+} 
+
 
 
 #print Dumper(\%hits);
